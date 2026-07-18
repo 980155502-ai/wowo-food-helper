@@ -34,7 +34,8 @@ jobs:
             - name: Build
               run: npm run build:github-pages
               env:
-                  DEMO_BASE: /wowo-food-helper/
+                  DEMO_BASE: /
+                  GITHUB_PAGES_DOMAIN: food.wowoqinglv.com
                   VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
                   VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
