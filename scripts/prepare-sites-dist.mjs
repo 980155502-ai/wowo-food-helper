@@ -49,5 +49,5 @@ export default {
         return env.ASSETS.fetch(withAssetPath(request, '/index.html'));
     },
 };
-`,
+`
 );

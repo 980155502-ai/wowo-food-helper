@@ -156,7 +156,7 @@ const normalizeVoteCounts = (voteCounts?: CloudVoteCounts) =>
     Object.fromEntries(
         Object.entries(voteCounts || {})
             .filter(([, value]) => Number.isFinite(value) && value >= 0)
-            .map(([key, value]) => [key, Math.floor(value)]),
+            .map(([key, value]) => [key, Math.floor(value)])
     ) as CloudVoteCounts;
 
 const normalizeShopComments = (comments?: ShopCommentStore): ShopCommentStore =>
@@ -172,7 +172,7 @@ const normalizeShopComments = (comments?: ShopCommentStore): ShopCommentStore =>
                 }))
                 .filter((item) => item.text)
                 .slice(0, 8),
-        ]),
+        ])
     ) as ShopCommentStore;
 
 const normalizeFreeNotes = (notes?: WowoSeedNote[]) =>
@@ -205,8 +205,16 @@ const getSupabaseBootstrap = async () => {
 
     const [voteCountsResult, commentsResult, freeNotesResult] = await Promise.all([
         supabase.from('vote_counts').select('restaurant_id,vote_count'),
-        supabase.from('shop_comments').select('id,restaurant_id,text,created_at').order('created_at', { ascending: false }).limit(400),
-        supabase.from('free_notes').select('id,shop_name,text,created_at').order('created_at', { ascending: false }).limit(12),
+        supabase
+            .from('shop_comments')
+            .select('id,restaurant_id,text,created_at')
+            .order('created_at', { ascending: false })
+            .limit(400),
+        supabase
+            .from('free_notes')
+            .select('id,shop_name,text,created_at')
+            .order('created_at', { ascending: false })
+            .limit(12),
     ]);
 
     if (voteCountsResult.error) throw voteCountsResult.error;
@@ -214,7 +222,7 @@ const getSupabaseBootstrap = async () => {
     if (freeNotesResult.error) throw freeNotesResult.error;
 
     const voteCounts = Object.fromEntries(
-        ((voteCountsResult.data || []) as VoteCountRow[]).map((row) => [row.restaurant_id, row.vote_count || 0]),
+        ((voteCountsResult.data || []) as VoteCountRow[]).map((row) => [row.restaurant_id, row.vote_count || 0])
     ) as CloudVoteCounts;
     const shopComments = ((commentsResult.data || []) as ShopCommentRow[]).reduce<ShopCommentStore>((store, row) => {
         const current = store[row.restaurant_id] || [];
@@ -244,7 +252,9 @@ const getSupabaseVoteCount = async (restaurantId: string) => {
 const submitSupabaseVote = async (restaurantId: string, deviceId: string) => {
     if (!supabase) return null;
 
-    const { error } = await supabase.from('restaurant_votes').insert({ restaurant_id: restaurantId, device_id: deviceId });
+    const { error } = await supabase
+        .from('restaurant_votes')
+        .insert({ restaurant_id: restaurantId, device_id: deviceId });
     if (error && error.code !== '23505') throw error;
     return getSupabaseVoteCount(restaurantId);
 };
@@ -318,10 +328,11 @@ const filterRestaurants = (filters: FilterState, restaurants = wowoRestaurants) 
         restaurants.filter((restaurant) => {
             const matchesTime = filters.time === '全部' || restaurant.times.includes(filters.time);
             const matchesScene = filters.scene === '全部' || restaurant.scenes.includes(filters.scene);
-            const matchesDistance = filters.distance === '全部' || restaurant.rideMinutes <= rideBandMax[filters.distance];
+            const matchesDistance =
+                filters.distance === '全部' || restaurant.rideMinutes <= rideBandMax[filters.distance];
 
             return matchesTime && matchesScene && matchesDistance;
-        }),
+        })
     );
 
 const truncateText = (text: string, maxLength: number) =>
@@ -433,7 +444,7 @@ const FoodFinder: React.FC<{ setToast: (message: string) => void }> = ({ setToas
     const [cloudVoteCounts, setCloudVoteCounts] = useState<CloudVoteCounts>({});
     const [freeNotes, setFreeNotes] = useState<WowoSeedNote[]>(getInitialFreeNotes);
     const [shopComments, setShopComments] = useState<ShopCommentStore>(() =>
-        readStorage<ShopCommentStore>(SHOP_COMMENT_STORAGE_KEY, {}),
+        readStorage<ShopCommentStore>(SHOP_COMMENT_STORAGE_KEY, {})
     );
     const [freeNoteShopName, setFreeNoteShopName] = useState('');
     const [freeNoteText, setFreeNoteText] = useState('');
@@ -492,21 +503,27 @@ const FoodFinder: React.FC<{ setToast: (message: string) => void }> = ({ setToas
 
     const visibleRestaurants = useMemo(
         () => wowoRestaurants.filter((restaurant) => restaurant.verificationStatus === 'verified'),
-        [],
+        []
     );
     const topRestaurants = useMemo(
         () => sortByRating(visibleRestaurants, votes, cloudVoteCounts).slice(0, 3),
-        [visibleRestaurants, votes, cloudVoteCounts],
+        [visibleRestaurants, votes, cloudVoteCounts]
     );
     const rankingRestaurants = useMemo(
         () => sortByRating(visibleRestaurants, votes, cloudVoteCounts),
-        [visibleRestaurants, votes, cloudVoteCounts],
+        [visibleRestaurants, votes, cloudVoteCounts]
     );
-    const draftMatchCount = useMemo(() => filterRestaurants(draftFilters, visibleRestaurants).length, [draftFilters, visibleRestaurants]);
-    const resultRestaurants = useMemo(() => filterRestaurants(appliedFilters, visibleRestaurants), [appliedFilters, visibleRestaurants]);
+    const draftMatchCount = useMemo(
+        () => filterRestaurants(draftFilters, visibleRestaurants).length,
+        [draftFilters, visibleRestaurants]
+    );
+    const resultRestaurants = useMemo(
+        () => filterRestaurants(appliedFilters, visibleRestaurants),
+        [appliedFilters, visibleRestaurants]
+    );
     const selectedRestaurant = useMemo(
         () => visibleRestaurants.find((restaurant) => restaurant.id === selectedRestaurantId) || null,
-        [selectedRestaurantId, visibleRestaurants],
+        [selectedRestaurantId, visibleRestaurants]
     );
 
     const displayFreeNotes = freeNotes.length > 0 ? [...freeNotes, ...seedNotes] : seedNotes;
@@ -980,107 +997,105 @@ const ResultsScreen: React.FC<{
     const commentPreviewCount = mode === 'random' || restaurants.length === 1 ? 3 : 2;
 
     return (
-    <main className="wowo-phone">
-        <div className="wowo-status" aria-hidden>
-            <span>窝窝青年旅舍</span>
-            <span>{mode === 'all' ? '全部名单' : mode === 'random' ? '随机结果' : '筛选结果'}</span>
-        </div>
-
-        <section className="wowo-results-hero">
-            <button type="button" className="wowo-back-button" onClick={onBack}>
-                <span aria-hidden>‹</span>
-                {mode === 'random' ? '返回筛选' : '重新筛选'}
-            </button>
-            <button type="button" className="wowo-clear wowo-view-toggle" onClick={onOpenRanking}>
-                看高分榜
-            </button>
-        </section>
-
-        <section aria-live="polite">
-            <div className="wowo-results-head">
-                <h2>{mode === 'all' ? '所有餐馆' : mode === 'random' ? '随机结果' : '筛选结果'}</h2>
-                <span>
-                    {mode === 'random' ? '1 家' : `${restaurants.length} / ${visibleCount} 家`}
-                </span>
+        <main className="wowo-phone">
+            <div className="wowo-status" aria-hidden>
+                <span>窝窝青年旅舍</span>
+                <span>{mode === 'all' ? '全部名单' : mode === 'random' ? '随机结果' : '筛选结果'}</span>
             </div>
 
-            {mode === 'random' && randomPick && (
-                <RandomPickCard
-                    pick={randomPick}
-                    score={getScoreText(randomPick.restaurant, votes, cloudVoteCounts)}
-                    voteCount={getVoteCount(randomPick.restaurant, votes, cloudVoteCounts)}
-                    voted={!!votes[randomPick.restaurant.id]}
-                    comments={getShopCommentItems(randomPick.restaurant, shopComments)}
-                    onVote={() => onVote(randomPick.restaurant)}
-                    onNavigate={() => onNavigate(randomPick.restaurant)}
-                    onOpenDetail={() => onOpenDetail(randomPick.restaurant)}
-                    onOpenComment={() => onOpenComment(randomPick.restaurant)}
-                    onSubmitInlineComment={(text) => onSubmitInlineComment(randomPick.restaurant, text)}
-                />
-            )}
+            <section className="wowo-results-hero">
+                <button type="button" className="wowo-back-button" onClick={onBack}>
+                    <span aria-hidden>‹</span>
+                    {mode === 'random' ? '返回筛选' : '重新筛选'}
+                </button>
+                <button type="button" className="wowo-clear wowo-view-toggle" onClick={onOpenRanking}>
+                    看高分榜
+                </button>
+            </section>
 
-            {mode !== 'random' && restaurants.length > 0 ? (
-                <div className="wowo-list">
-                    {restaurants.map((restaurant) => (
-                        <RestaurantCard
-                            key={restaurant.id}
-                            restaurant={restaurant}
-                            score={getScoreText(restaurant, votes, cloudVoteCounts)}
-                            voteCount={getVoteCount(restaurant, votes, cloudVoteCounts)}
-                            voted={!!votes[restaurant.id]}
-                            comments={getShopCommentItems(restaurant, shopComments)}
-                            commentPreviewCount={commentPreviewCount}
-                            onVote={() => onVote(restaurant)}
-                            onNavigate={() => onNavigate(restaurant)}
-                            onOpenDetail={() => onOpenDetail(restaurant)}
-                            onOpenComment={() => onOpenComment(restaurant)}
-                            onSubmitInlineComment={(text) => onSubmitInlineComment(restaurant, text)}
-                        />
-                    ))}
+            <section aria-live="polite">
+                <div className="wowo-results-head">
+                    <h2>{mode === 'all' ? '所有餐馆' : mode === 'random' ? '随机结果' : '筛选结果'}</h2>
+                    <span>{mode === 'random' ? '1 家' : `${restaurants.length} / ${visibleCount} 家`}</span>
                 </div>
-            ) : null}
 
-            {mode !== 'random' && restaurants.length === 0 ? (
-                <Card className="wowo-card wowo-empty">
-                    <strong>这组条件暂时没有匹配</strong>
-                    <p>可以回去放宽距离，或者把场景切回全部看看。</p>
-                    <Button type="primary" onClick={onBack}>
-                        重新筛选
-                    </Button>
-                </Card>
-            ) : null}
+                {mode === 'random' && randomPick && (
+                    <RandomPickCard
+                        pick={randomPick}
+                        score={getScoreText(randomPick.restaurant, votes, cloudVoteCounts)}
+                        voteCount={getVoteCount(randomPick.restaurant, votes, cloudVoteCounts)}
+                        voted={!!votes[randomPick.restaurant.id]}
+                        comments={getShopCommentItems(randomPick.restaurant, shopComments)}
+                        onVote={() => onVote(randomPick.restaurant)}
+                        onNavigate={() => onNavigate(randomPick.restaurant)}
+                        onOpenDetail={() => onOpenDetail(randomPick.restaurant)}
+                        onOpenComment={() => onOpenComment(randomPick.restaurant)}
+                        onSubmitInlineComment={(text) => onSubmitInlineComment(randomPick.restaurant, text)}
+                    />
+                )}
 
-            {mode === 'filtered' && (
-                <ResultActionPanel
-                    primaryLabel="随机筛选"
-                    secondaryLabel="查看所有餐馆"
-                    helper="随机只抽一家；所有餐馆可慢慢看完整名单。"
-                    onPrimary={onRandom}
-                    onSecondary={onShowAll}
-                />
-            )}
+                {mode !== 'random' && restaurants.length > 0 ? (
+                    <div className="wowo-list">
+                        {restaurants.map((restaurant) => (
+                            <RestaurantCard
+                                key={restaurant.id}
+                                restaurant={restaurant}
+                                score={getScoreText(restaurant, votes, cloudVoteCounts)}
+                                voteCount={getVoteCount(restaurant, votes, cloudVoteCounts)}
+                                voted={!!votes[restaurant.id]}
+                                comments={getShopCommentItems(restaurant, shopComments)}
+                                commentPreviewCount={commentPreviewCount}
+                                onVote={() => onVote(restaurant)}
+                                onNavigate={() => onNavigate(restaurant)}
+                                onOpenDetail={() => onOpenDetail(restaurant)}
+                                onOpenComment={() => onOpenComment(restaurant)}
+                                onSubmitInlineComment={(text) => onSubmitInlineComment(restaurant, text)}
+                            />
+                        ))}
+                    </div>
+                ) : null}
 
-            {mode === 'random' && (
-                <ResultActionPanel
-                    primaryLabel="重抽一次"
-                    secondaryLabel="查看所有名单餐馆"
-                    helper="点重抽会重新进入抽签流程；想完整浏览可以打开全部名单。"
-                    onPrimary={onRandom}
-                    onSecondary={onShowAll}
-                />
-            )}
+                {mode !== 'random' && restaurants.length === 0 ? (
+                    <Card className="wowo-card wowo-empty">
+                        <strong>这组条件暂时没有匹配</strong>
+                        <p>可以回去放宽距离，或者把场景切回全部看看。</p>
+                        <Button type="primary" onClick={onBack}>
+                            重新筛选
+                        </Button>
+                    </Card>
+                ) : null}
 
-            {mode === 'all' && (
-                <div className="wowo-single-result-action">
-                    <Button type="primary" onClick={onBack}>
-                        重新筛选
-                    </Button>
-                </div>
-            )}
-        </section>
+                {mode === 'filtered' && (
+                    <ResultActionPanel
+                        primaryLabel="随机筛选"
+                        secondaryLabel="查看所有餐馆"
+                        helper="随机只抽一家；所有餐馆可慢慢看完整名单。"
+                        onPrimary={onRandom}
+                        onSecondary={onShowAll}
+                    />
+                )}
 
-        <p className="wowo-note">营业时间可能调整，出发前建议先打开高德确认。</p>
-    </main>
+                {mode === 'random' && (
+                    <ResultActionPanel
+                        primaryLabel="重抽一次"
+                        secondaryLabel="查看所有名单餐馆"
+                        helper="点重抽会重新进入抽签流程；想完整浏览可以打开全部名单。"
+                        onPrimary={onRandom}
+                        onSecondary={onShowAll}
+                    />
+                )}
+
+                {mode === 'all' && (
+                    <div className="wowo-single-result-action">
+                        <Button type="primary" onClick={onBack}>
+                            重新筛选
+                        </Button>
+                    </div>
+                )}
+            </section>
+
+            <p className="wowo-note">营业时间可能调整，出发前建议先打开高德确认。</p>
+        </main>
     );
 };
 
@@ -1377,7 +1392,18 @@ const RandomPickCard: React.FC<{
     onOpenDetail: () => void;
     onOpenComment: () => void;
     onSubmitInlineComment: (text: string) => boolean;
-}> = ({ pick, score, voteCount, voted, comments, onVote, onNavigate, onOpenDetail, onOpenComment, onSubmitInlineComment }) => (
+}> = ({
+    pick,
+    score,
+    voteCount,
+    voted,
+    comments,
+    onVote,
+    onNavigate,
+    onOpenDetail,
+    onOpenComment,
+    onSubmitInlineComment,
+}) => (
     <div className="wowo-random-pick">
         <div className="wowo-random-pick-copy">
             <span>随机签名</span>
@@ -1571,9 +1597,7 @@ const RestaurantCard: React.FC<{
                 ))}
             </div>
 
-            <p className="wowo-reason">
-                {restaurant.seedNotes[0]}
-            </p>
+            <p className="wowo-reason">{restaurant.seedNotes[0]}</p>
 
             <div className="wowo-shop-address">
                 <span>地址</span>
@@ -1581,15 +1605,16 @@ const RestaurantCard: React.FC<{
             </div>
 
             {comments.length > 0 && onOpenDetail && (
-                <ShopCommentPreview
-                    comments={comments}
-                    count={commentPreviewCount}
-                    onOpenDetail={onOpenDetail}
-                />
+                <ShopCommentPreview comments={comments} count={commentPreviewCount} onOpenDetail={onOpenDetail} />
             )}
 
             <div className={actionClassName}>
-                <Button className="wowo-vote-action" type={voted ? 'default' : 'primary'} onClick={onVote} disabled={voted}>
+                <Button
+                    className="wowo-vote-action"
+                    type={voted ? 'default' : 'primary'}
+                    onClick={onVote}
+                    disabled={voted}
+                >
                     {voted ? '已投' : '投一票'}
                 </Button>
                 {onSubmitInlineComment && (
@@ -1636,7 +1661,10 @@ const ShopCommentPreview: React.FC<{
     const visibleComments = comments.slice(0, Math.min(6, Math.max(5, count)));
     const tickerBase =
         visibleComments.length > 0
-            ? Array.from({ length: Math.max(6, visibleComments.length) }, (_, index) => visibleComments[index % visibleComments.length])
+            ? Array.from(
+                  { length: Math.max(6, visibleComments.length) },
+                  (_, index) => visibleComments[index % visibleComments.length]
+              )
             : [];
     const tickerComments = [...tickerBase, ...tickerBase];
 

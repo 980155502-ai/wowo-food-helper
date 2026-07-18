@@ -1,12 +1,16 @@
 .wowo-shell {
     min-height: 100dvh;
-    background:
-        radial-gradient(circle at 18% 4%, rgba(238, 132, 76, 0.16), transparent 28%),
-        radial-gradient(circle at 92% 14%, rgba(70, 139, 177, 0.18), transparent 25%),
-        #fbf4e8;
+    background: radial-gradient(circle at 18% 4%, rgba(238, 132, 76, 0.16), transparent 28%),
+        radial-gradient(circle at 92% 14%, rgba(70, 139, 177, 0.18), transparent 25%), #fbf4e8;
     color: #4e4132;
     font-family:
-        Nunito, 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        Nunito,
+        'Noto Sans SC',
+        -apple-system,
+        BlinkMacSystemFont,
+        'PingFang SC',
+        'Microsoft YaHei',
+        sans-serif;
     overflow-x: hidden;
 }
 
@@ -120,9 +124,7 @@
     overflow: hidden;
     margin-top: 14px;
     padding: 16px 14px;
-    background:
-        linear-gradient(135deg, rgba(224, 242, 246, 0.96), rgba(255, 246, 219, 0.9)),
-        rgba(255, 255, 255, 0.72);
+    background: linear-gradient(135deg, rgba(224, 242, 246, 0.96), rgba(255, 246, 219, 0.9)), rgba(255, 255, 255, 0.72);
     border: 1px solid rgba(77, 130, 162, 0.42) !important;
     box-shadow:
         0 4px 0 rgba(77, 130, 162, 0.34),
@@ -169,8 +171,7 @@
     padding: 0 15px;
     border: 0;
     border-radius: 15px;
-    background:
-        linear-gradient(180deg, #5f9bb8, #356f91);
+    background: linear-gradient(180deg, #5f9bb8, #356f91);
     color: #fffaf1;
     font: inherit;
     font-size: 12px;
@@ -255,10 +256,8 @@
 .wowo-top-panel {
     margin-top: 14px;
     padding: 16px 14px;
-    background:
-        radial-gradient(circle at 12% 0%, rgba(247, 204, 99, 0.28), transparent 34%),
-        linear-gradient(135deg, rgba(255, 250, 241, 0.96), rgba(255, 231, 180, 0.9)),
-        #fff8e8;
+    background: radial-gradient(circle at 12% 0%, rgba(247, 204, 99, 0.28), transparent 34%),
+        linear-gradient(135deg, rgba(255, 250, 241, 0.96), rgba(255, 231, 180, 0.9)), #fff8e8;
 }
 
 .wowo-top-list {
@@ -283,9 +282,7 @@
     min-height: 52px;
     padding: 10px 11px;
     border-radius: 16px;
-    background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 250, 241, 0.62)),
-        rgba(255, 255, 255, 0.72);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 250, 241, 0.62)), rgba(255, 255, 255, 0.72);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.8),
         0 2px 0 rgba(114, 93, 66, 0.08);
@@ -367,9 +364,7 @@
 .wowo-filter-group {
     padding: 11px 10px 12px;
     border-radius: 16px;
-    background:
-        linear-gradient(180deg, rgba(255, 250, 241, 0.72), rgba(255, 250, 241, 0.44)),
-        rgba(255, 255, 255, 0.28);
+    background: linear-gradient(180deg, rgba(255, 250, 241, 0.72), rgba(255, 250, 241, 0.44)), rgba(255, 255, 255, 0.28);
     border: 1px solid rgba(114, 93, 66, 0.1);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
@@ -386,7 +381,7 @@
 }
 
 .wowo-filter-label::before {
-    content: "";
+    content: '';
     width: 7px;
     height: 18px;
     border-radius: 999px;
@@ -485,9 +480,7 @@
 .wowo-result-actions-card {
     margin-top: 14px;
     padding: 14px;
-    background:
-        linear-gradient(135deg, rgba(255, 250, 241, 0.92), rgba(223, 238, 242, 0.76)),
-        rgba(255, 255, 255, 0.64);
+    background: linear-gradient(135deg, rgba(255, 250, 241, 0.92), rgba(223, 238, 242, 0.76)), rgba(255, 255, 255, 0.64);
 }
 
 .wowo-result-actions-grid {
@@ -523,9 +516,7 @@
     margin-bottom: 14px;
     padding: 11px;
     border-radius: 20px;
-    background:
-        linear-gradient(135deg, rgba(247, 204, 99, 0.28), rgba(77, 130, 162, 0.16)),
-        rgba(255, 255, 255, 0.58);
+    background: linear-gradient(135deg, rgba(247, 204, 99, 0.28), rgba(77, 130, 162, 0.16)), rgba(255, 255, 255, 0.58);
     border: 1px solid rgba(114, 93, 66, 0.1);
 }
 
@@ -569,9 +560,7 @@
     gap: 14px;
     padding: 30px 24px;
     border-radius: 26px;
-    background:
-        linear-gradient(135deg, rgba(255, 250, 241, 0.92), rgba(255, 232, 189, 0.86)),
-        #fff8e8;
+    background: linear-gradient(135deg, rgba(255, 250, 241, 0.92), rgba(255, 232, 189, 0.86)), #fff8e8;
     border: 1px solid rgba(114, 93, 66, 0.1);
     box-shadow: 0 18px 42px rgba(112, 85, 50, 0.12);
     text-align: center;
@@ -838,9 +827,7 @@
     margin-top: 10px;
     padding: 10px;
     border-radius: 16px;
-    background:
-        linear-gradient(180deg, rgba(238, 248, 250, 0.78), rgba(255, 250, 241, 0.72)),
-        rgba(255, 255, 255, 0.56);
+    background: linear-gradient(180deg, rgba(238, 248, 250, 0.78), rgba(255, 250, 241, 0.72)), rgba(255, 255, 255, 0.56);
     border: 1px solid rgba(77, 130, 162, 0.22);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
 }
@@ -872,9 +859,7 @@
     margin: 0 0 12px;
     padding: 10px 10px 11px;
     border-radius: 16px;
-    background:
-        linear-gradient(180deg, rgba(238, 248, 250, 0.82), rgba(255, 250, 241, 0.7)),
-        rgba(255, 250, 241, 0.82);
+    background: linear-gradient(180deg, rgba(238, 248, 250, 0.82), rgba(255, 250, 241, 0.7)), rgba(255, 250, 241, 0.82);
     border: 1px solid rgba(77, 130, 162, 0.22);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.52);
 }
@@ -1242,9 +1227,7 @@
     align-items: center;
     margin-top: 14px;
     padding: 14px;
-    background:
-        linear-gradient(135deg, rgba(255, 250, 241, 0.92), rgba(224, 242, 246, 0.82)),
-        rgba(255, 255, 255, 0.74);
+    background: linear-gradient(135deg, rgba(255, 250, 241, 0.92), rgba(224, 242, 246, 0.82)), rgba(255, 255, 255, 0.74);
 }
 
 .wowo-all-restaurants-card strong,
@@ -1327,9 +1310,7 @@
     justify-content: center;
     padding: 18px 14px;
     box-sizing: border-box;
-    background:
-        linear-gradient(180deg, rgba(255, 250, 239, 0.9), rgba(246, 232, 202, 0.9)),
-        #f8edcf;
+    background: linear-gradient(180deg, rgba(255, 250, 239, 0.9), rgba(246, 232, 202, 0.9)), #f8edcf;
     overflow: hidden;
 }
 
@@ -1354,8 +1335,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(255, 248, 222, 0.22), transparent 28%),
+    background: linear-gradient(180deg, rgba(255, 248, 222, 0.22), transparent 28%),
         linear-gradient(0deg, rgba(88, 60, 31, 0.18), transparent 38%);
 }
 
@@ -1384,8 +1364,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-        linear-gradient(120deg, transparent 8%, rgba(255, 255, 255, 0.28) 26%, transparent 42%),
+    background: linear-gradient(120deg, transparent 8%, rgba(255, 255, 255, 0.28) 26%, transparent 42%),
         radial-gradient(circle at 48% 42%, rgba(255, 248, 211, 0.22), transparent 34%);
     mix-blend-mode: screen;
     opacity: 0;
