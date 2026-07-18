@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
 
-process.env.DEMO_BASE = '/';
+process.env.DEMO_BASE = process.env.DEMO_BASE || '/';
 
 const viteBin = resolve('node_modules', 'vite', 'bin', 'vite.js');
 const result = spawnSync(process.execPath, [viteBin, 'build', '--config', 'vite.config.demo.ts'], {
