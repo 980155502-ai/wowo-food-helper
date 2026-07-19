@@ -11,12 +11,12 @@ import '@fontsource/noto-sans-sc/chinese-simplified-400.css';
 import '@fontsource/noto-sans-sc/chinese-simplified-500.css';
 import '@fontsource/noto-sans-sc/chinese-simplified-700.css';
 import HomePage from './HomePage';
+import WowoFoodAssistant from './WowoFoodAssistant';
 import { PAGE_INFO } from './pageInfo';
 import { useIsMobile } from './tools';
 
 // Lazy-load ComponentPage so homepage does not pull in every demo on initial load
 const ComponentPage = lazy(() => import('./ComponentPage'));
-const WowoFoodAssistant = lazy(() => import('./WowoFoodAssistant'));
 
 // ============================================
 // Simple hash router
@@ -262,7 +262,7 @@ const App: React.FC = () => {
     const [loadingMounted, setLoadingMounted] = useState(false);
     const mainRef = React.useRef<HTMLElement>(null);
 
-    const activeKey = hash.startsWith('/') && hash.length > 1 ? hash.slice(1) : 'home';
+    const activeKey = hash.startsWith('/') && hash.length > 1 ? hash.slice(1) : 'wowo-food';
     const isHomePage = activeKey === 'home';
     const isWowoFoodPage = activeKey === 'wowo-food';
 
@@ -322,9 +322,7 @@ const App: React.FC = () => {
                     <HomePage onNavigate={handleHomeNavigate} />
                 </div>
             ) : isWowoFoodPage ? (
-                <Suspense fallback={null}>
-                    <WowoFoodAssistant />
-                </Suspense>
+                <WowoFoodAssistant />
             ) : (
                 /* Component page — with sidebar */
                 <div style={S.layout}>
