@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Button, Card, Icon, Tag } from '../src';
-import amapIcon from './img/amap-favicon.ico';
+import amapIcon from './img/amap-logo.png';
 import {
     sceneFilters,
     seedNotes,
@@ -559,17 +559,15 @@ const FoodFinder: React.FC<{ setToast: (message: string) => void }> = ({ setToas
         const label = encodeURIComponent(restaurant.amapName || restaurant.shortName);
         const poiId = restaurant.amapPoiId;
         const position = restaurant.amapLocation;
-        const detailLink =
-            restaurant.amapLink ||
-            (poiId ? `https://www.amap.com/ssr/search/poi_detail?id=${encodeURIComponent(poiId)}&name=${label}` : '');
 
-        if (detailLink) {
-            window.open(detailLink, '_blank', 'noopener,noreferrer');
+        if (poiId) {
+            const url = `https://uri.amap.com/marker?poiid=${encodeURIComponent(poiId)}&name=${label}&src=wowo-food-helper&callnative=1`;
+            window.open(url, '_blank', 'noopener,noreferrer');
             return;
         }
 
         if (!position) {
-            setToast('这家店还在核准高德链接，暂时不能打开。');
+            setToast('这家店还在核准高德定位，暂时不能打开。');
             return;
         }
 
@@ -1626,7 +1624,7 @@ const RestaurantCard: React.FC<{
                     className="wowo-location-action"
                     type="primary"
                     onClick={onNavigate}
-                    icon={<Icon src={amapIcon} size={16} className="wowo-amap-icon" />}
+                    icon={<img src={amapIcon} width={16} height={16} className="wowo-amap-icon" alt="" />}
                 >
                     查看店铺位置
                 </Button>
