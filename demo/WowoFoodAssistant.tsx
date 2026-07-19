@@ -110,8 +110,8 @@ const supabase =
           })
         : null;
 
-const introStartImage = new URL('./assets/wowo/nanchang-flat-start.png', import.meta.url).href;
-const introEndImage = new URL('./assets/wowo/nanchang-flat-end.png', import.meta.url).href;
+const introStartImage = new URL('./assets/wowo/nanchang-flat-start-mobile.jpg', import.meta.url).href;
+const introEndImage = new URL('./assets/wowo/nanchang-flat-end-mobile.jpg', import.meta.url).href;
 
 const defaultFilters: FilterState = {
     time: '全部',
@@ -413,8 +413,24 @@ const WowoFoodAssistant: React.FC = () => {
 const IntroExperience: React.FC<{ leaving: boolean; onEnter: () => void }> = ({ leaving, onEnter }) => (
     <section className={`wowo-flat-intro ${leaving ? 'is-leaving' : ''}`}>
         <div className="wowo-flat-stage" aria-label="窝窝吃饭小助手南昌平涂开场">
-            <img className="wowo-flat-start" src={introStartImage} alt="" />
-            <img className="wowo-flat-end" src={introEndImage} alt="" />
+            <img
+                className="wowo-flat-start"
+                src={introStartImage}
+                width={941}
+                height={1672}
+                decoding="sync"
+                fetchPriority="high"
+                alt=""
+            />
+            <img
+                className="wowo-flat-end"
+                src={introEndImage}
+                width={941}
+                height={1672}
+                decoding="async"
+                fetchPriority="high"
+                alt=""
+            />
             <div className="wowo-flat-soft-light" aria-hidden />
             <div className="wowo-flat-title">
                 <span>窝窝吃饭小助手</span>
