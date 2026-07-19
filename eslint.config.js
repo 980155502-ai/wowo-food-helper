@@ -12,6 +12,8 @@ export default tseslint.config(
             'demo-dist/**',
             'coverage/**',
             'node_modules/**',
+            'tmp-*/**',
+            'tmp-*',
             'scripts/**',
             '*.config.js',
             '*.config.ts',
