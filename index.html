@@ -38,12 +38,135 @@
                     'Microsoft YaHei',
                     sans-serif;
             }
+
+            .wowo-static-intro {
+                display: flex;
+                min-height: 100vh;
+                min-height: 100svh;
+                align-items: center;
+                justify-content: center;
+                padding: 18px 14px;
+                box-sizing: border-box;
+                background: linear-gradient(180deg, rgba(255, 250, 239, 0.9), rgba(246, 232, 202, 0.9)), #f8edcf;
+            }
+
+            .wowo-static-stage {
+                position: relative;
+                width: 362px;
+                max-width: calc(100vw - 28px);
+                height: min(calc(100vh - 36px), 746px);
+                height: min(calc(100svh - 36px), 746px);
+                overflow: hidden;
+                border-radius: 28px;
+                background: #efc55b;
+                box-shadow:
+                    0 24px 54px rgba(116, 84, 34, 0.18),
+                    0 0 0 1px rgba(112, 78, 34, 0.1);
+            }
+
+            .wowo-static-stage img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center;
+            }
+
+            .wowo-static-title {
+                position: absolute;
+                left: 24px;
+                right: 24px;
+                bottom: 104px;
+                display: grid;
+                gap: 7px;
+                justify-items: center;
+                padding: 16px 14px 17px;
+                border-radius: 22px;
+                background: rgba(255, 249, 231, 0.88);
+                color: #4b3926;
+                text-align: center;
+                box-shadow: 0 12px 28px rgba(112, 78, 34, 0.12);
+            }
+
+            .wowo-static-title span {
+                color: #7a6141;
+                font:
+                    900 13px/1.2 -apple-system,
+                    BlinkMacSystemFont,
+                    'PingFang SC',
+                    'Microsoft YaHei',
+                    sans-serif;
+            }
+
+            .wowo-static-title strong {
+                font:
+                    900 28px/1.05 -apple-system,
+                    BlinkMacSystemFont,
+                    'PingFang SC',
+                    'Microsoft YaHei',
+                    sans-serif;
+            }
+
+            .wowo-static-action {
+                position: absolute;
+                left: 50%;
+                bottom: 34px;
+                width: min(230px, calc(100% - 58px));
+                min-height: 48px;
+                transform: translateX(-50%);
+                border: 0;
+                border-radius: 24px;
+                background: #fffaf1;
+                color: #7a4b2c;
+                font:
+                    900 16px/1 -apple-system,
+                    BlinkMacSystemFont,
+                    'PingFang SC',
+                    'Microsoft YaHei',
+                    sans-serif;
+            }
         </style>
         <title>窝窝饮食好店指南</title>
     </head>
 
     <body>
-        <div id="root"></div>
+        <div id="root">
+            <section class="wowo-static-intro" data-wowo-static-intro>
+                <div class="wowo-static-stage">
+                    <img
+                        src="/assets/nanchang-flat-start-mobile-DO-pWQP7.jpg"
+                        width="941"
+                        height="1672"
+                        alt=""
+                        decoding="sync"
+                        fetchpriority="high"
+                    />
+                    <div class="wowo-static-title">
+                        <span>窝窝吃饭小助手</span>
+                        <strong>今天吃什么？</strong>
+                    </div>
+                    <button class="wowo-static-action" type="button" onclick="window.location.reload()">
+                        开始找吃的
+                    </button>
+                </div>
+            </section>
+        </div>
+        <script>
+            window.setTimeout(function () {
+                var root = document.getElementById('root');
+                if (!root || !root.querySelector('[data-wowo-static-intro]')) return;
+                if (window.location.search.indexOf('wowo_refresh=') !== -1) return;
+                var joiner = window.location.search ? '&' : '?';
+                window.location.replace(
+                    window.location.pathname +
+                        window.location.search +
+                        joiner +
+                        'wowo_refresh=' +
+                        Date.now() +
+                        window.location.hash
+                );
+            }, 6500);
+        </script>
         <script type="module" src="/demo/main.tsx"></script>
     </body>
 </html>
