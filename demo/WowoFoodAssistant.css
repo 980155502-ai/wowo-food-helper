@@ -1324,8 +1324,13 @@
 
 .wowo-flat-stage {
     position: relative;
+    width: 100%;
+    max-width: 420px;
     width: min(100%, 420px);
-    aspect-ratio: 941 / 1672;
+    height: 746px;
+    height: calc(100vh - 36px);
+    height: min(calc(100vh - 36px), 746px);
+    height: min(calc(100dvh - 36px), 746px);
     border-radius: 28px;
     overflow: hidden;
     background: #efc55b;
@@ -1334,6 +1339,13 @@
         0 0 0 1px rgba(112, 78, 34, 0.1);
     transform-origin: center;
     animation: wowoFlatStageIn 620ms cubic-bezier(0.2, 0.88, 0.28, 1) both;
+}
+
+@supports (aspect-ratio: 1 / 1) {
+    .wowo-flat-stage {
+        height: auto;
+        aspect-ratio: 941 / 1672;
+    }
 }
 
 .wowo-flat-stage::after {
@@ -1670,7 +1682,16 @@
     }
 
     .wowo-flat-stage {
+        height: calc(100vh - 24px);
+        height: min(calc(100vh - 24px), 746px);
+        height: min(calc(100dvh - 24px), 746px);
         border-radius: 22px;
+    }
+
+    @supports (aspect-ratio: 1 / 1) {
+        .wowo-flat-stage {
+            height: auto;
+        }
     }
 
     .wowo-flat-title {
