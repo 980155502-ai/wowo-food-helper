@@ -48,3 +48,5 @@ coverage/
 *.tmp
 *.temp
 .npmrc
+tmp-wowo-*.png
+tmp-chrome-profile-cdp*/
