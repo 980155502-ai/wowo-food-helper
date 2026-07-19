@@ -35,12 +35,7 @@ const legacyMainJsNames = [
     'index-DT6oJPQz.js',
     'index-LjP_z9iV.js',
 ];
-const legacyMainCssNames = [
-    'index-CWamBXyO.css',
-    'index-BrSUvVym.css',
-    'index-qP9ekr68.css',
-    'index-jgZ7VLEC.css',
-];
+const legacyMainCssNames = ['index-CWamBXyO.css', 'index-BrSUvVym.css', 'index-qP9ekr68.css', 'index-jgZ7VLEC.css'];
 
 if (existsSync(assetsDir)) {
     const html = readFileSync(resolve('demo-dist', 'index.html'), 'utf8');
