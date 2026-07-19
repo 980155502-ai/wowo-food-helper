@@ -39,6 +39,19 @@
                     sans-serif;
             }
 
+            #app-root {
+                min-height: 100vh;
+                min-height: 100svh;
+            }
+
+            body:not(.wowo-app-ready) #app-root {
+                display: none;
+            }
+
+            body.wowo-app-ready #root {
+                display: none;
+            }
+
             .wowo-static-intro {
                 display: flex;
                 min-height: 100vh;
@@ -125,6 +138,18 @@
                     'Microsoft YaHei',
                     sans-serif;
             }
+
+            .wowo-static-error {
+                padding: 22px;
+                color: #5b412a;
+                font:
+                    800 18px/1.6 -apple-system,
+                    BlinkMacSystemFont,
+                    'PingFang SC',
+                    'Microsoft YaHei',
+                    sans-serif;
+                text-align: center;
+            }
         </style>
         <title>窝窝饮食好店指南</title>
     </head>
@@ -151,8 +176,10 @@
                 </div>
             </section>
         </div>
+        <div id="app-root"></div>
         <script>
             window.setTimeout(function () {
+                if (document.body.classList.contains('wowo-app-ready')) return;
                 var root = document.getElementById('root');
                 if (!root || !root.querySelector('[data-wowo-static-intro]')) return;
                 if (window.location.search.indexOf('wowo_refresh=') !== -1) return;

@@ -15,9 +15,9 @@ if (result.status !== 0) {
 }
 
 const domain = (process.env.GITHUB_PAGES_DOMAIN || process.env.WOWO_FOOD_DOMAIN || '').trim();
+const outDir = resolve('demo-dist');
 
 if (domain) {
-    const outDir = resolve('demo-dist');
     if (!existsSync(outDir)) {
         mkdirSync(outDir, { recursive: true });
     }
@@ -25,6 +25,17 @@ if (domain) {
     console.log(`Wrote demo-dist/CNAME for ${domain}`);
 } else {
     console.log('Skipped CNAME: set GITHUB_PAGES_DOMAIN=food.your-domain.com before building.');
+}
+
+const entryHtml = resolve(outDir, 'index.html');
+if (existsSync(entryHtml)) {
+    copyFileSync(entryHtml, resolve(outDir, '404.html'));
+    for (const entryName of ['start', 'scan', 'wowo']) {
+        const entryDir = resolve(outDir, entryName);
+        mkdirSync(entryDir, { recursive: true });
+        copyFileSync(entryHtml, resolve(entryDir, 'index.html'));
+    }
+    console.log('Wrote stable GitHub Pages entries: /start/, /scan/, /wowo/, and 404.html');
 }
 
 const assetsDir = resolve('demo-dist', 'assets');
