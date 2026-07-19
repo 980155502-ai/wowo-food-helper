@@ -68,11 +68,12 @@
                 position: relative;
                 width: 362px;
                 max-width: calc(100vw - 28px);
-                height: min(calc(100vh - 36px), 746px);
-                height: min(calc(100svh - 36px), 746px);
+                height: 746px;
+                height: calc(100vh - 36px);
+                max-height: 746px;
                 overflow: hidden;
                 border-radius: 28px;
-                background: #efc55b;
+                background: #efc55b url('/assets/nanchang-flat-start-mobile-DO-pWQP7.jpg') center / contain no-repeat;
                 box-shadow:
                     0 24px 54px rgba(116, 84, 34, 0.18),
                     0 0 0 1px rgba(112, 78, 34, 0.1);
@@ -125,7 +126,8 @@
                 position: absolute;
                 left: 50%;
                 bottom: 34px;
-                width: min(230px, calc(100% - 58px));
+                width: 230px;
+                max-width: calc(100% - 58px);
                 min-height: 48px;
                 transform: translateX(-50%);
                 border: 0;
