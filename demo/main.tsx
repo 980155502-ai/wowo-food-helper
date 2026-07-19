@@ -11,7 +11,7 @@ globalStyle.textContent = `
     height: 746px !important;
     height: calc(100vh - 36px) !important;
     max-height: 746px !important;
-    background: #efc55b url('/assets/nanchang-flat-start-mobile-DO-pWQP7.jpg') center / contain no-repeat !important;
+    background: #efc55b url('/assets/nanchang-flat-end-mobile-BL7LjZzU.jpg') center / contain no-repeat !important;
   }
   .wowo-static-action {
     width: 230px !important;

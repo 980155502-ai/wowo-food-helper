@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
 
@@ -16,9 +16,20 @@ if (result.status !== 0) {
 
 const domain = (process.env.GITHUB_PAGES_DOMAIN || process.env.WOWO_FOOD_DOMAIN || '').trim();
 const outDir = resolve('demo-dist');
+const assetsDir = resolve(outDir, 'assets');
 const appTargetHref = '/app/?wowo_enter=1#/wowo-food';
 
-const createStaticEntryHtml = () => `<!doctype html>
+const getStaticIntroImageHref = () => {
+    if (!existsSync(assetsDir)) return '/assets/nanchang-flat-end-mobile-BL7LjZzU.jpg';
+
+    const imageName =
+        readdirSync(assetsDir).find((name) => /^nanchang-flat-end-mobile-.+\.jpg$/.test(name)) ||
+        'nanchang-flat-end-mobile-BL7LjZzU.jpg';
+
+    return `/assets/${imageName}`;
+};
+
+const createStaticEntryHtml = (introImageHref) => `<!doctype html>
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
@@ -31,7 +42,7 @@ const createStaticEntryHtml = () => `<!doctype html>
         <meta name="description" content="窝窝青年旅舍附近 47 家核准餐馆筛选、留言、投票和高德定位指南。" />
         <meta property="og:title" content="窝窝饮食好店指南" />
         <meta property="og:description" content="从窝窝出发，按骑行距离、饭点和心情筛选附近好店。" />
-        <link rel="preload" as="image" href="/assets/nanchang-flat-start-mobile-DO-pWQP7.jpg" />
+        <link rel="preload" as="image" href="${introImageHref}" />
         <title>窝窝饮食好店指南</title>
         <style>
             html,
@@ -71,7 +82,7 @@ const createStaticEntryHtml = () => `<!doctype html>
                 min-height: 560px;
                 overflow: hidden;
                 border-radius: 28px;
-                background: #efc55b url('/assets/nanchang-flat-start-mobile-DO-pWQP7.jpg') center / contain no-repeat;
+                background: #efc55b url('${introImageHref}') center / contain no-repeat;
                 box-shadow:
                     0 24px 54px rgba(116, 84, 34, 0.18),
                     0 0 0 1px rgba(112, 78, 34, 0.1);
@@ -144,7 +155,7 @@ const createStaticEntryHtml = () => `<!doctype html>
         <main class="wowo-static-intro" data-wowo-static-only>
             <section class="wowo-static-stage" aria-label="窝窝吃饭小助手">
                 <img
-                    src="/assets/nanchang-flat-start-mobile-DO-pWQP7.jpg"
+                    src="${introImageHref}"
                     width="941"
                     height="1672"
                     alt=""
@@ -182,7 +193,7 @@ if (existsSync(entryHtml)) {
         writeFileSync(resolve(entryDir, 'index.html'), appHtml, 'utf8');
     }
 
-    const staticHtml = createStaticEntryHtml();
+    const staticHtml = createStaticEntryHtml(getStaticIntroImageHref());
     writeFileSync(entryHtml, staticHtml, 'utf8');
     writeFileSync(resolve(outDir, '404.html'), appHtml, 'utf8');
     for (const entryName of ['start', 'scan']) {
@@ -193,7 +204,6 @@ if (existsSync(entryHtml)) {
     console.log('Wrote pure static scan entries: /, /start/, /scan/. App entry: /app/.');
 }
 
-const assetsDir = resolve('demo-dist', 'assets');
 const legacyMainJsNames = [
     'index-BqrTyF3h.js',
     'index-BWINbzzM.js',
