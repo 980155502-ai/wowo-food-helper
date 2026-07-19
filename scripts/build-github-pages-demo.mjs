@@ -48,6 +48,9 @@ const legacyMainJsNames = [
     'index-Cbu5CT80.js',
     'index-CeptVpSx.js',
     'index-BhoLqGWp.js',
+    'index-CSFkFpG1.js',
+    'index-DDOtbZMd.js',
+    'index-CRLbh-BP.js',
 ];
 const legacyMainCssNames = ['index-CWamBXyO.css', 'index-BrSUvVym.css', 'index-qP9ekr68.css', 'index-jgZ7VLEC.css'];
 legacyMainCssNames.push('index-BnGQEXrA.css');
