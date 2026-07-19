@@ -3,12 +3,37 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
         <meta name="application-name" content="窝窝饮食好店指南" />
         <meta name="apple-mobile-web-app-title" content="窝窝饮食好店指南" />
         <meta name="description" content="窝窝青年旅舍附近 47 家核准餐馆筛选、留言、投票和高德定位指南。" />
         <meta property="og:title" content="窝窝饮食好店指南" />
         <meta property="og:description" content="从窝窝出发，按骑行距离、饭点和心情筛选附近好店。" />
         <link rel="icon" href="/demo/html/favicon.ico" />
+        <style>
+            html,
+            body,
+            #root {
+                min-height: 100%;
+            }
+
+            body {
+                margin: 0;
+                background: #fbf4e8;
+            }
+
+            #root:empty::before {
+                content: '正在打开窝窝吃饭小助手...';
+                display: flex;
+                min-height: 100vh;
+                align-items: center;
+                justify-content: center;
+                color: #725d42;
+                font: 700 16px -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            }
+        </style>
         <title>窝窝饮食好店指南</title>
     </head>
 
