@@ -386,10 +386,23 @@ const playEnterSound = () => {
     osc.stop(context.currentTime + 0.2);
 };
 
+const hasEnteredFromStaticIntro = () =>
+    typeof window !== 'undefined' && Boolean((window as { __wowoStaticEntered?: boolean }).__wowoStaticEntered);
+
 const WowoFoodAssistant: React.FC = () => {
-    const [showAssistant, setShowAssistant] = useState(false);
+    const [showAssistant, setShowAssistant] = useState(hasEnteredFromStaticIntro);
     const [introLeaving, setIntroLeaving] = useState(false);
     const [toast, setToast] = useState('');
+
+    useEffect(() => {
+        const enterFromStaticIntro = () => {
+            setIntroLeaving(false);
+            setShowAssistant(true);
+        };
+
+        window.addEventListener('wowo-static-enter', enterFromStaticIntro);
+        return () => window.removeEventListener('wowo-static-enter', enterFromStaticIntro);
+    }, []);
 
     const enterAssistant = () => {
         playEnterSound();

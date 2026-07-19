@@ -12,6 +12,7 @@
         <meta property="og:title" content="窝窝饮食好店指南" />
         <meta property="og:description" content="从窝窝出发，按骑行距离、饭点和心情筛选附近好店。" />
         <link rel="icon" href="/demo/html/favicon.ico" />
+        <link rel="preload" as="image" href="/assets/nanchang-flat-start-mobile-DO-pWQP7.jpg" />
         <style>
             html,
             body,
@@ -44,11 +45,11 @@
                 min-height: 100svh;
             }
 
-            body:not(.wowo-app-ready) #app-root {
+            body:not(.wowo-app-entered) #app-root {
                 display: none;
             }
 
-            body.wowo-app-ready #root {
+            body.wowo-app-entered #root {
                 display: none;
             }
 
@@ -170,7 +171,7 @@
                         <span>窝窝吃饭小助手</span>
                         <strong>今天吃什么？</strong>
                     </div>
-                    <button class="wowo-static-action" type="button" onclick="window.location.reload()">
+                    <button class="wowo-static-action" type="button" onclick="window.wowoEnterFoodHelper()">
                         开始找吃的
                     </button>
                 </div>
@@ -178,21 +179,18 @@
         </div>
         <div id="app-root"></div>
         <script>
-            window.setTimeout(function () {
-                if (document.body.classList.contains('wowo-app-ready')) return;
-                var root = document.getElementById('root');
-                if (!root || !root.querySelector('[data-wowo-static-intro]')) return;
-                if (window.location.search.indexOf('wowo_refresh=') !== -1) return;
-                var joiner = window.location.search ? '&' : '?';
-                window.location.replace(
-                    window.location.pathname +
-                        window.location.search +
-                        joiner +
-                        'wowo_refresh=' +
-                        Date.now() +
-                        window.location.hash
-                );
-            }, 6500);
+            window.__wowoStaticEntered = /[?&]wowo_enter=1(?:&|$)/.test(window.location.search);
+            if (window.__wowoStaticEntered) {
+                document.body.classList.add('wowo-app-entered');
+            }
+            window.wowoEnterFoodHelper = function () {
+                window.__wowoStaticEntered = true;
+                if (!window.location.hash || window.location.hash === '#/') {
+                    window.location.hash = '/wowo-food';
+                }
+                document.body.classList.add('wowo-app-entered');
+                window.dispatchEvent(new Event('wowo-static-enter'));
+            };
         </script>
         <script type="module" src="/demo/main.tsx"></script>
     </body>

@@ -1,4 +1,4 @@
-import React, { useEffect, type ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
@@ -10,14 +10,6 @@ globalStyle.textContent = `
 `;
 document.head.appendChild(globalStyle);
 
-const markAppReady = () => {
-    window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(() => {
-            document.body.classList.add('wowo-app-ready');
-        });
-    });
-};
-
 class AppErrorBoundary extends React.Component<{ children: ReactNode }, { hasError: boolean }> {
     state = { hasError: false };
 
@@ -27,7 +19,7 @@ class AppErrorBoundary extends React.Component<{ children: ReactNode }, { hasErr
 
     componentDidCatch(error: unknown) {
         console.error('Wowo app failed to render', error);
-        document.body.classList.add('wowo-app-ready');
+        document.body.classList.add('wowo-app-entered');
     }
 
     render() {
@@ -47,18 +39,10 @@ class AppErrorBoundary extends React.Component<{ children: ReactNode }, { hasErr
     }
 }
 
-const AppBoot = () => {
-    useEffect(() => {
-        markAppReady();
-    }, []);
-
-    return <App />;
-};
-
 ReactDOM.createRoot(document.getElementById('app-root') ?? document.getElementById('root')!).render(
     <React.StrictMode>
         <AppErrorBoundary>
-            <AppBoot />
+            <App />
         </AppErrorBoundary>
     </React.StrictMode>
 );

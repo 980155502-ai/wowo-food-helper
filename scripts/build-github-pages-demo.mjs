@@ -45,8 +45,12 @@ const legacyMainJsNames = [
     'index-CDt_9n2Y.js',
     'index-DT6oJPQz.js',
     'index-LjP_z9iV.js',
+    'index-Cbu5CT80.js',
+    'index-CeptVpSx.js',
+    'index-BhoLqGWp.js',
 ];
 const legacyMainCssNames = ['index-CWamBXyO.css', 'index-BrSUvVym.css', 'index-qP9ekr68.css', 'index-jgZ7VLEC.css'];
+legacyMainCssNames.push('index-BnGQEXrA.css');
 
 if (existsSync(assetsDir)) {
     const html = readFileSync(resolve('demo-dist', 'index.html'), 'utf8');
