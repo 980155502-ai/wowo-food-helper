@@ -1,0 +1,32 @@
+name: Supabase Keepalive
+
+on:
+    schedule:
+        # Supabase Free projects can pause after low activity over 7 days.
+        # Three lightweight reads every 12 hours keeps this project visibly active.
+        - cron: '17 */12 * * *'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: supabase-keepalive
+    cancel-in-progress: false
+
+jobs:
+    ping:
+        name: Ping Supabase public tables
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: Run keepalive read queries
+              run: node scripts/supabase-keepalive.mjs
+              env:
+                  VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+                  VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}

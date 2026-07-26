@@ -39,6 +39,7 @@
         "build:demo": "vite build --config vite.config.demo.ts",
         "build:github-pages": "node scripts/build-github-pages-demo.mjs",
         "build:sites": "vite build --config vite.config.demo.ts && node scripts/prepare-sites-dist.mjs",
+        "supabase:keepalive": "node scripts/supabase-keepalive.mjs",
         "prepublishOnly": "npm run build",
         "deploy": "npm run build:demo && gh-pages -d demo-dist",
         "deploy:github-pages": "npm run build:github-pages && gh-pages -d demo-dist",
