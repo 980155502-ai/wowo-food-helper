@@ -24,7 +24,7 @@ try {
     fail(`Invalid Supabase URL: ${urlFromEnv}`);
 }
 
-const baseUrl = supabaseUrl.href.replace(/\/$/, '');
+const baseUrl = supabaseUrl.origin;
 
 console.log(`[supabase-keepalive] Checking ${endpoints.length} public read endpoints on ${supabaseUrl.host}.`);
 
