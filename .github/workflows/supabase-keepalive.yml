@@ -2,9 +2,8 @@ name: Supabase Keepalive
 
 on:
     schedule:
-        # Supabase Free projects can pause after low activity over 7 days.
-        # Three lightweight reads every 12 hours keeps this project visibly active.
-        - cron: '17 */12 * * *'
+        # Daily at 08:17 Asia/Hong_Kong (00:17 UTC).
+        - cron: '17 0 * * *'
     workflow_dispatch:
 
 permissions:
@@ -17,9 +16,16 @@ concurrency:
 jobs:
     ping:
         name: Ping Supabase public tables
+        if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
+        timeout-minutes: 5
+        permissions:
+            contents: write
         steps:
             - uses: actions/checkout@v4
+              with:
+                  ref: main
+                  fetch-depth: 0
 
             - uses: actions/setup-node@v4
               with:
@@ -30,3 +36,30 @@ jobs:
               env:
                   VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
                   VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+            - name: Commit successful keepalive record
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  mkdir -p .github/keepalive
+                  printf 'Last successful database check (UTC): %s\nWorkflow run: %s/%s/actions/runs/%s\nEndpoints: vote_counts, shop_comments, free_notes\nResult: all queries returned HTTP 200\n' \
+                    "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+                    "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" \
+                    > .github/keepalive/last-success.txt
+                  git config user.name 'github-actions[bot]'
+                  git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+                  git add -- .github/keepalive/last-success.txt
+                  if git diff --cached --quiet; then
+                    echo 'Keepalive record is already up to date.'
+                    exit 0
+                  fi
+                  git commit -m 'chore: record successful Supabase keepalive [skip ci]'
+                  for attempt in 1 2 3; do
+                    git pull --rebase origin main
+                    if git push origin HEAD:main; then
+                      exit 0
+                    fi
+                    sleep 5
+                  done
+                  echo 'Unable to push keepalive record after 3 attempts.' >&2
+                  exit 1
