@@ -1,4 +1,4 @@
-Last successful database check (UTC): 2026-11-25T08:34:49Z
-Workflow run: https://github.com/980155502-ai/wowo-food-helper/actions/runs/45577507554
+Last successful database check (UTC): 2026-11-26T08:18:09Z
+Workflow run: https://github.com/980155502-ai/wowo-food-helper/actions/runs/45781992305
 Endpoints: vote_counts, shop_comments, free_notes
 Result: all queries returned HTTP 200
